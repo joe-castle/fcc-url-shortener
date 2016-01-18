@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = require('../src/routes');
+const writeFile = require('../src/utils/url-to-json-file').writeFile;
 
 describe('Express Routes', () => {
   describe('To root path', () => {
@@ -23,21 +24,13 @@ describe('Express Routes', () => {
 
   describe('To new URL shorterner API', () => {
     before(() => {
-      fs.writeFileSync(
-        path.join(__dirname, './short-urls-test.json'),
-        JSON.stringify([]),
-        'utf8'
-      )
+      writeFile([]);
     });
     after(() => {
-      fs.writeFileSync(
-        path.join(__dirname, './short-urls-test.json'),
-        JSON.stringify([]),
-        'utf8'
-      )
+      writeFile([]);
     });
 
-    it('Retruns 200 status', (done) => {
+    it('Returns 200 status', (done) => {
       request(app)
         .get('/new/http://www.example.com')
         .expect(200, done)
@@ -84,7 +77,8 @@ describe('Express Routes', () => {
         })
         .end(done)
     })
-    it(`If the url has already been shortened, it responds with that object
+    it(`If the url has already been shortened,
+        it responds with that object,
         rather than creating a new one`, (done) => {
       const expectedResponse = {
         original_url: 'http://www.example.com',
@@ -113,10 +107,28 @@ describe('Express Routes', () => {
   });
 
   describe('To shortened URL', () => {
-    it('Should respond with a 302 status code', (done) => {
+    before(() => {
+      request(app)
+        .get('/new/http://www.example.com');
+    });
+    after(() => {
+      writeFile([]);
+    });
+    it('Should respond with a 302 status code if the url exists', (done) => {
+      request(app)
+        .get('/0')
+        .expect(302, done)
+    });
+    it(`Should respond with a 404 status code
+        if the URL doesn't exist`, (done) => {
       request(app)
         .get('/1')
-        .expect(302, done)
+        .expect(404, done)
+    })
+    it('Should redirect the user if a valid short url is found', (done) => {
+      request(app)
+        .get('/0')
+        .expect('Location', 'http://www.example.com', done);
     });
   });
 });
