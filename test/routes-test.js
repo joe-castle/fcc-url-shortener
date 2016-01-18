@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = require('../src/routes');
-const writeFile = require('../src/utils/url-to-json-file').writeFile;
+const writeFile = require('../src/utils/json-write');
 
 describe('Express Routes', () => {
   describe('To root path', () => {
@@ -107,13 +107,6 @@ describe('Express Routes', () => {
   });
 
   describe('To shortened URL', () => {
-    before(() => {
-      request(app)
-        .get('/new/http://www.example.com');
-    });
-    after(() => {
-      writeFile([]);
-    });
     it('Should respond with a 302 status code if the url exists', (done) => {
       request(app)
         .get('/0')
@@ -122,8 +115,8 @@ describe('Express Routes', () => {
     it(`Should respond with a 404 status code
         if the URL doesn't exist`, (done) => {
       request(app)
-        .get('/1')
-        .expect(404, done)
+        .get('/4')
+        .expect(404, done);
     })
     it('Should redirect the user if a valid short url is found', (done) => {
       request(app)

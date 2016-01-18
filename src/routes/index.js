@@ -18,14 +18,14 @@ app.use('/', express.static(path.join(__dirname, '../public')));
 app.get('/:shortURL', (req, res) => {
   let exists = checker(req.params.shortURL);
   if (exists) {
-    res.redirect('http://www.example.com');
+    res.redirect(exists.original_url);
   } else {
     res.status(404).json({error: 'No short url found for that query.'});
   }
 });
 
 app.get('/new/*', (req, res) => {
-  res.json(generate(req.params[0], req.query.allow));
+  res.json(generate(req.params[0], req.hostname, req.query.allow));
 });
 
 module.exports = app;

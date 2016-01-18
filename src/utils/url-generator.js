@@ -2,16 +2,20 @@
 
 const path = require('path');
 
-const shortUrls = require('./url-to-json-file').shortUrls;
-const writeFile = require('./url-to-json-file').writeFile;
+const shortUrls = require('./json-read');
+const writeFile = require('./json-write');
 
-module.exports = (url) => {
+module.exports = (url, hostname) => {
   let exists = shortUrls.find(x => x.original_url === url);
   if (exists) {
     return exists;
   }
 
-  let rootPath = 'http://localhost:3000/'
+  if (hostname === 'localhost') {
+    hostname = 'localhost:3000'
+  }
+
+  let rootPath = `http://${hostname}/`
     , shortUrl = (shortUrls.length).toString()
     , urlObj = {
       original_url: url,
