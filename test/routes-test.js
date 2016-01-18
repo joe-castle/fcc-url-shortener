@@ -2,6 +2,8 @@
 
 const request = require('supertest');
 const expect = require('chai').expect;
+const fs = require('fs');
+const path = require('path');
 
 const app = require('../src/routes');
 
@@ -19,7 +21,22 @@ describe('Express Routes', () => {
     });
   });
 
-  describe('To URL shorterner API', () => {
+  describe('To new URL shorterner API', () => {
+    before(() => {
+      fs.writeFileSync(
+        path.join(__dirname, './short-urls-test.json'),
+        JSON.stringify([]),
+        'utf8'
+      )
+    });
+    after(() => {
+      fs.writeFileSync(
+        path.join(__dirname, './short-urls-test.json'),
+        JSON.stringify([]),
+        'utf8'
+      )
+    });
+
     it('Retruns 200 status', (done) => {
       request(app)
         .get('/new/http://www.example.com')
@@ -55,15 +72,62 @@ describe('Express Routes', () => {
     it(`Returns an object with the original url and
         the short url if the URL provided is valid`, (done) => {
       const expectedResponse = {
-        original_url: 'htttp://www.example.com',
-        short_url: 'http:/localhost:3000/2'
+        original_url: 'http://www.example.com',
+        short_url: 'http:/localhost:3000/0'
       };
       request(app)
-        .get('/new/htttp://www.example.com')
+        .get('/new/http://www.example.com')
         .expect((res) => {
           expect(res.body).to.deep.equal(expectedResponse);
         })
         .end(done);
+    });
+    it(`If the url is missing http:// but is valid,
+        response will be prepended with http://`, (done) => {
+      const expectedResponse = {
+        original_url: 'http://www.google.com',
+        short_url: 'http:/localhost:3000/1'
+      };
+      request(app)
+        .get('/new/www.google.com')
+        .expect((res) => {
+          expect(res.body).to.deep.equal(expectedResponse);
+        })
+        .end(done)
+    })
+    it(`If the url has already been shortened, it responds with that object
+        rather than creating a new one`, (done) => {
+      const expectedResponse = {
+        original_url: 'http://www.example.com',
+        short_url: 'http:/localhost:3000/0'
+      };
+      request(app)
+        .get('/new/http://www.example.com')
+        .expect((res) => {
+          expect(res.body).to.deep.equal(expectedResponse);
+        })
+        .end(done)
+    });
+    it(`If the URL is invalid, but the user has passed ?allow=true,
+      the url object will be generated anyway`, (done) => {
+      const expectedResponse = {
+        original_url: 'fakeurl',
+        short_url: 'http:/localhost:3000/2'
+      };
+      request(app)
+        .get('/new/fakeurl?allow=true')
+        .expect((res) => {
+          expect(res.body).to.deep.equal(expectedResponse);
+        })
+        .end(done)
+    });
+  });
+
+  describe('To shortened URL', () => {
+    it('Should respond with a 302 status code', (done) => {
+      request(app)
+        .get('/new/1')
+        .expect(302, done)
     });
   });
 });

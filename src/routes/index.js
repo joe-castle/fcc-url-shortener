@@ -5,12 +5,22 @@ const path = require('path');
 
 const app = express();
 
-const sug = require('../utils/shortUrlGenerator');
+// Calls url-generator after validating the response,
+// unless the url is invalid or no string is passed,
+// with the exception of passing ?allow=true.
+const generate = require('../utils/url-validator');
+
+app.set('trust proxy', true);
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 
-app.get('/new/?*', (req, res) => {
-  res.json(sug(req.params[0]))
+// app.get('/:shortURL', (req, res) => {
+//   res.status(302).json({error: 'error'});
+//   // res.redirect('http://www.example.com');
+// });
+
+app.get('/new/*?', (req, res) => {
+  res.json(generate(req.params[0], req.query.allow));
 });
 
 module.exports = app;
