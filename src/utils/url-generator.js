@@ -11,7 +11,7 @@ module.exports = (url, hostname) => {
     return exists;
   }
 
-  if (hostname === 'localhost') {
+  if (hostname === '127.0.0.1' || hostname === 'localhost') {
     hostname = 'localhost:3000'
   }
 

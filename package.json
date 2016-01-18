@@ -4,7 +4,7 @@
   "description": "Twitch App from FCC",
   "main": "index.js",
   "scripts": {
-    "start": "node -- src/server.js",
+    "start": "node src/server.js",
     "test": "NODE_ENV=test mocha --watch",
     "deploy": "git push heroku master"
   },

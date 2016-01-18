@@ -3,17 +3,27 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <title>Timestamp Microservice</title>
+    <title>URL Shorterner Microservice</title>
   </head>
   <body>
     <div id="root" class='container'>
-      <h1 class="text-center" style="text-decoration:underline">FCC Timetamp Microservice Project</h1>
-      <h3>Example Usage:</h3>
-      <code>http://url/January%2017%202016</code>
+      <h1 class="text-center" style="text-decoration:underline">FCC URL Shorterner Microservice Project</h1>
+      <h3>Example Creation Usage:</h3>
+      <code>https://fccurl.herokuapp.com/new/http://www.google.com</code>
       <br>
-      <code>http://url/1453032000</code>
-      <h3>Example Output:</h3>
-      <code>{"unix":1453032000,"natural":"January 17th, 2016"}</code>
+      <code>https://fccurl.herokuapp.com/new/www.freecodecamp.com</code>
+      <h5>You can pass ?allow=true to force the creation of a url, otherwise it is subject to validation.</h5>
+      <code>https://fccurl.herokuapp.com/fakeurl?allow=true</code>
+      <h3>Example Usage Output:</h3>
+      <code>{original_url: "http://www.google.com", short_url: "https://fccurl.herokuapp.com/0"}</code>
+      <br>
+      <code>{original_url: "http://www.freecodecamp.com", short_url: "https://fccurl.herokuapp.com/1"}</code>
+      <br>
+      <code>{original_url: "fakeurl", short_url: "https://fccurl.herokuapp.com/2"}</code>
+      <h3>Usage:</h3>
+      <code>https://fccurl.herokuapp.com/3</code>
+      <h5>Will re-direct to:</h5>
+      <code>https://en.wikipedia.org/wiki/Computer_programming</code>
     </div>
   </body>
 </html>
