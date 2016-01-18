@@ -3,10 +3,6 @@
 Please see challenge page for more info: http://www.freecodecamp.com/challenges/url-shortener-microservice
 
 ```
-> mkdir data
-> cd data/
-> echo '[]' >> short-urls.json
-
 > npm install
 > node src/server.js
 ```
