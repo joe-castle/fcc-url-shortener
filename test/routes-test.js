@@ -47,17 +47,6 @@ describe('Express Routes', () => {
         .get('/new/http://www.example.com')
         .expect('Content-Type', /json/, done);
     });
-    it('Returns a URL not found error if no params are provided', (done) => {
-      const expectedResponse = {
-        error: 'No URL found'
-      };
-      request(app)
-        .get('/new/')
-        .expect((res) => {
-          expect(res.body).to.deep.equal(expectedResponse);
-        })
-        .end(done);
-    })
     it('Returns an invalid URL error if url is not valid format', (done) => {
       const expectedResponse = {
         error: 'URL invalid'
@@ -126,7 +115,7 @@ describe('Express Routes', () => {
   describe('To shortened URL', () => {
     it('Should respond with a 302 status code', (done) => {
       request(app)
-        .get('/new/1')
+        .get('/1')
         .expect(302, done)
     });
   });

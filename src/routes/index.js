@@ -14,12 +14,11 @@ app.set('trust proxy', true);
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 
-// app.get('/:shortURL', (req, res) => {
-//   res.status(302).json({error: 'error'});
-//   // res.redirect('http://www.example.com');
-// });
+app.get('/:shortURL', (req, res) => {
+  res.redirect('http://www.example.com');
+});
 
-app.get('/new/*?', (req, res) => {
+app.get('/new/*', (req, res) => {
   res.json(generate(req.params[0], req.query.allow));
 });
 
