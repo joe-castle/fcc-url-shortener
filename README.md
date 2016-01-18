@@ -1,22 +1,38 @@
-# FCC Timestamp Microservice Project
+# FCC URL Shortener Project
 
-Please see challenge page for more info: http://www.freecodecamp.com/challenges/timestamp-microservice
+Please see challenge page for more info: http://www.freecodecamp.com/challenges/url-shortener-microservice
 
 ```
+> mkdir data
+> cd data/
+> echo '[]' >> short-urls.json
+
 > npm install
 > node src/server.js
 ```
 
-Example Usage:
+Example Creation Usage:
 ```
-http://localhost:3000/January%2017%202016
-http://localhost:3000/1453032000
+https://fccurl.herokuapp.com/new/http://www.google.com
+https://fccurl.herokuapp.com/new/www.freecodecamp.com
 ```
 
-Example Output:
+You can pass `?allow=true` to force the creation of a url, otherwise it is subject to validation.
 ```
-{
-  "unix": 1453032000,
-  "natural": "January 17th, 2016"
-}
+https://fccurl.herokuapp.com/fakeurl?allow=true
+```
+
+Example Creation Output:
+```
+{original_url: "http://www.google.com", short_url: "https://fccurl.herokuapp.com/0"}
+{original_url: "http://www.freecodecamp.com", short_url: "https://fccurl.herokuapp.com/1"}
+{original_url: "fakeurl", short_url: "https://fccurl.herokuapp.com/2"}
+```
+Usage:
+```
+https://fccurl.herokuapp.com/3
+```
+Will re-direct to:
+```
+https://en.wikipedia.org/wiki/Computer_programming
 ```
