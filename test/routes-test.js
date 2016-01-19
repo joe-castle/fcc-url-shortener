@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = require('../src/routes');
-const db = require('../src/utils/db-client');
+const db = require('../src/db/client');
 
 describe('Express Routes', () => {
   describe('To root path', () => {

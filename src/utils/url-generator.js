@@ -2,16 +2,13 @@
 
 const path = require('path');
 
-const dbGet = require('./db-get');
-const writeFile = require('./db-set');
+const dbGet = require('../db/get');
+const dbSet = require('../db/set');
 
-module.exports = (url, hostname, callback) => {
-  dbGet((data) => {
+module.exports = (url, hostname, allow) => (
+  dbGet.then((data) => {
     let exists = data.find(x => x.original_url === url);
-    if (exists) {
-      callback(exists);
-      return;
-    }
+    if (exists) { return exists; }
 
     if (hostname === '127.0.0.1' || hostname === 'localhost') {
       hostname = 'localhost:3000'
@@ -25,8 +22,8 @@ module.exports = (url, hostname, callback) => {
       };
 
     data.push(urlObj);
-    writeFile(data);
+    dbSet(data);
 
-    callback(urlObj);
+    return urlObj;
   })
-}
+);
