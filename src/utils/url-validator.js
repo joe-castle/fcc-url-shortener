@@ -3,12 +3,12 @@
 const isURL = require('validator').isURL;
 const generateUrl = require ('./url-generator');
 
-module.exports = (url, hostname, allow) => {
+module.exports = (url, hostname, allow, callback) => {
   if (isURL(url, {require_protocol: true}) || allow === 'true') {
-    return generateUrl(url, hostname);
+    generateUrl(url, hostname, callback);
   } else if (isURL(url)) {
-    return generateUrl(`http://${url}`, hostname);
+    generateUrl(`http://${url}`, hostname, callback);
   } else {
-    return { error: 'URL invalid' };
+    callback({ error: 'URL invalid' });
   }
 };

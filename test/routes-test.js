@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = require('../src/routes');
-const writeFile = require('../src/utils/json-write');
+const db = require('../src/utils/db-client');
 
 describe('Express Routes', () => {
   describe('To root path', () => {
@@ -24,10 +24,10 @@ describe('Express Routes', () => {
 
   describe('To new URL shorterner API', () => {
     before(() => {
-      writeFile([]);
+      db.flushdb();
     });
     after(() => {
-      writeFile([]);
+      db.flushdb();
     });
 
     it('Returns 200 status', (done) => {
@@ -107,6 +107,17 @@ describe('Express Routes', () => {
   });
 
   describe('To shortened URL', () => {
+    before(() => {
+      db.set('shortUrls', JSON.stringify(
+        [{
+          original_url: 'http://www.example.com',
+          short_url: 'http://localhost:3000/0'
+        }]
+      ));
+    });
+    after(() => {
+      db.flushdb();
+    })
     it('Should respond with a 302 status code if the url exists', (done) => {
       request(app)
         .get('/0')

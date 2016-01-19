@@ -1,5 +1,5 @@
 {
-  "name": "twitch-app",
+  "name": "url-shortener-project",
   "version": "1.0.0",
   "description": "Twitch App from FCC",
   "main": "index.js",
@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
+    "redis": "^2.4.2",
     "valid-url": "^1.0.9",
     "validator": "^4.5.0"
   },
