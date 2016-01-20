@@ -1,7 +1,7 @@
 {
   "name": "url-shortener-project",
   "version": "1.0.0",
-  "description": "Twitch App from FCC",
+  "description": "URL shortener project from FCC",
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
