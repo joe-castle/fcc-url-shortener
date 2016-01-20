@@ -2,6 +2,13 @@
 
 Please see challenge page for more info: http://www.freecodecamp.com/challenges/url-shortener-microservice
 
+_Uses redis to persist the shortened urls.
+You can install redis with homebrew._
+```
+> brew install redis
+> redis-server
+```
+The app is configured to work with the default ip and ports so once redis-server is up, it will automatically work.
 ```
 > npm install
 > node src/server.js
