@@ -1,5 +1,7 @@
 # FCC URL Shortener Project
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/joesmith100/fcc-url-shortener.svg)](https://greenkeeper.io/)
+
 Please see challenge page for more info: http://www.freecodecamp.com/challenges/url-shortener-microservice
 
 _Uses redis to persist the shortened urls.
